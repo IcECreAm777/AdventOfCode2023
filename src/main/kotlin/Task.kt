@@ -18,12 +18,17 @@ open class Task(inFileName:String, outFileName: String) {
         writeOutput(first, second)
     }
 
-    /** Generates the task result. Is the actual functionality of a task */
-    open protected fun generateFirstSubTaskResult() : String {
+    /** Generates the task result of the first sub-task. Is the actual functionality of a task.
+     * @return The result of the sub-task as String
+     */
+    protected open fun generateFirstSubTaskResult() : String {
         return "Task not implemented"
     }
 
-    open protected fun generateSecondSubTaskResult() : String {
+    /** Generates the task result of the second sub-task. Is the actual functionality of a task.
+     * @return The result of the sub-task as String
+     */
+    protected open fun generateSecondSubTaskResult() : String {
         return "Task not implemented"
     }
 

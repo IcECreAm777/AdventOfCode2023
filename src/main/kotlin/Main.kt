@@ -6,16 +6,9 @@ fun main(args: Array<String>) {
 
     if(all) println("Doing all tasks in a row...")
 
-    // run the first task
-    if(all || task == 1) {
-        task01()
-    }
-
-    // run the second task
-    if(all || task == 2) {
-        task02()
-    }
-
+    // run the tasks
+    if(all || task == 1) task01()
+    if(all || task == 2) task02()
 }
 
 /** Runs the first task */
@@ -28,6 +21,7 @@ fun task01() {
 
 fun task02() {
     println("Doing second task...")
-
+    val task02 = Task02("./Tasks/Task02_Input.txt", "./Results/Task02.txt")
+    task02.invokeTask()
     println("Second task finished")
 }
