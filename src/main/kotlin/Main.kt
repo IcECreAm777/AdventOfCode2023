@@ -2,7 +2,14 @@ fun main(args: Array<String>) {
 
     // get which task(s) to run
     val all = args.isEmpty()
-    val task = if(!all && args[0].length == 1 && args[0][0].isDigit()) args[0][0].digitToInt() else 0
+    val task = if(args.size == 1) args[0].toIntOrNull() else null
+
+    // error with program parameters
+    if(!all && (task == null || task > 25 || task < 1)) {
+        println("Invalid program parameters. Just pass a number from 1 - 25 to specify the task to run or nothing " +
+                "at all to run every task.")
+        return
+    }
 
     if(all) println("Doing all tasks in a row...")
 
