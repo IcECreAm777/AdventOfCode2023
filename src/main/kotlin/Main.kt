@@ -28,7 +28,7 @@ fun main(args: Array<String>) {
 /** Runs the first task */
 fun task01() {
     println("Doing first task...")
-    val task = Task01("./src/main/kotlin/task01/Task01_Input.txt", "./Results/Task01.Task01.txt")
+    val task = Task01("./src/main/kotlin/task01/Task01_Input.txt", "./Results/Task01.txt")
     task.invokeTask()
     println("First task finished")
 }
@@ -42,7 +42,7 @@ fun task02() {
 
 fun task03() {
     println("Doing third task...")
-    val task = Task03("./src/main/kotlin/task03/Task03_Input.txt", "./Results/task03.Task03.txt")
+    val task = Task03("./src/main/kotlin/task03/Task03_Input.txt", "./Results/Task03.txt")
     task.invokeTask()
     println("Third task finished")
 }

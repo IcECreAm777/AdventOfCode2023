@@ -8,16 +8,20 @@ import kotlin.math.roundToInt
 /** Class representing the task of day 4 */
 class Task04(inFileName: String, outFileName: String) : Task(inFileName, outFileName) {
 
-    override fun generateFirstSubTaskResult(): String {
+    // list of cards and the amount of them (amount is only important for the second sub-task)
+    private var cards = mutableMapOf<Card, Int>()
 
-        // save the result in this var
-        var sum = 0
-
+    override fun initializeTask() {
         // iterate through each line to parse the input
         File(inputFileName).forEachLine {
 
             // split the input into winning and play numbers string
             val winningPlaySplit = it.split('|')
+            val idWinningSplit = winningPlaySplit[0].split(':')
+
+            // get the ID of the card
+            val regex = Regex("\\d+")
+            val id = regex.find(idWinningSplit[0])!!.value.toInt()
 
             // initialize the lists containing the different numbers
             val playNumbers = mutableListOf<Int>()
@@ -25,15 +29,22 @@ class Task04(inFileName: String, outFileName: String) : Task(inFileName, outFile
 
             // get the values from the input
             parseNumbersString(winningPlaySplit[1], playNumbers)
-            parseNumbersString(winningPlaySplit[0].split(':')[1], winningNumbers)
+            parseNumbersString(idWinningSplit[1], winningNumbers)
 
-            // check for every play number if they are also a winning number
-            var numMatchingNums = 0
-            for (play in playNumbers) {
-                if(winningNumbers.contains(play)) numMatchingNums++
-            }
+            // initialize the card and add it to the list
+            val card = Card(id, winningNumbers.toList(), playNumbers.toList())
+            cards[card] = 1
+        }
+    }
 
-            // add the points to the result
+    override fun generateFirstSubTaskResult(): String {
+
+        // save the result in this var
+        var sum = 0
+
+        // iterate through every card to get the points
+        for (card in cards.keys) {
+            val numMatchingNums = card.getNumMatchingNumbers()
             if(numMatchingNums > 0) sum += 2.0.pow(numMatchingNums - 1).roundToInt()
         }
 
@@ -42,7 +53,26 @@ class Task04(inFileName: String, outFileName: String) : Task(inFileName, outFile
     }
 
     override fun generateSecondSubTaskResult(): String {
-        return super.generateSecondSubTaskResult()
+
+        // iterate through every card
+        card@ for(i in 0..<cards.size) {
+
+            // get the current card and the amount of it
+            val card = cards.keys.toMutableList()[i]
+            val amount = cards[card]!!
+
+            // add a copy for the next n cards based on the amount of winning numbers of the current card
+            for(j in 1..card.getNumMatchingNumbers()) {
+                if(i+j > cards.size) continue@card
+                val cardToUpdate = cards.keys.toMutableList()[i + j]
+                cards[cardToUpdate] = cards[cardToUpdate]!! + amount
+            }
+        }
+
+        // add up the num of cards and return the result
+        var sum = 0
+        cards.values.forEach { sum += it }
+        return sum.toString()
     }
 
 
