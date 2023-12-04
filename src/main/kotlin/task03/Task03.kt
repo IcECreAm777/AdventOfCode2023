@@ -1,3 +1,6 @@
+package task03
+
+import Task
 import java.io.File
 
 /** Class representing the third task */

@@ -1,14 +1,7 @@
+package task02
+
+import Task
 import java.io.File
-
-
-/** defines the colors the cubes can have */
-enum class CubeColor {
-    RED, GREEN, BLUE, INVALID
-}
-
-/** Data class representing a single pull for a color */
-data class Pull(val color: CubeColor, val num: Int)
-
 
 /** Task implementation for the second day */
 class Task02(inFileName: String, outFileName: String) : Task(inFileName, outFileName) {

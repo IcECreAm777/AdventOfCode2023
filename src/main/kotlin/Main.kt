@@ -1,3 +1,8 @@
+import task01.Task01
+import task02.Task02
+import task03.Task03
+import task04.Task04
+
 fun main(args: Array<String>) {
 
     // get which task(s) to run
@@ -17,26 +22,34 @@ fun main(args: Array<String>) {
     if(all || task == 1) task01()
     if(all || task == 2) task02()
     if(all || task == 3) task03()
+    if(all || task == 4) task04()
 }
 
 /** Runs the first task */
 fun task01() {
     println("Doing first task...")
-    val task01 = Task01("./Tasks/Task01_Input.txt", "./Results/Task01.txt")
-    task01.invokeTask()
+    val task = Task01("./src/main/kotlin/task01/Task01_Input.txt", "./Results/Task01.Task01.txt")
+    task.invokeTask()
     println("First task finished")
 }
 
 fun task02() {
     println("Doing second task...")
-    val task02 = Task02("./Tasks/Task02_Input.txt", "./Results/Task02.txt")
-    task02.invokeTask()
+    val task = Task02("./src/main/kotlin/task02/Task02_Input.txt", "./Results/Task02.txt")
+    task.invokeTask()
     println("Second task finished")
 }
 
 fun task03() {
     println("Doing third task...")
-    val task03 = Task03("./Tasks/Task03_Input.txt", "./Results/Task03.txt")
-    task03.invokeTask()
+    val task = Task03("./src/main/kotlin/task03/Task03_Input.txt", "./Results/task03.Task03.txt")
+    task.invokeTask()
     println("Third task finished")
+}
+
+fun task04() {
+    println("Doing 4th task...")
+    val task = Task04("./src/main/kotlin/task04/Task04_Input.txt", "./Results/Task04.txt")
+    task.invokeTask()
+    println("4th task finished")
 }

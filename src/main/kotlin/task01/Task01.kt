@@ -1,3 +1,6 @@
+package task01
+
+import Task
 import java.io.File
 
 class Task01(inFileName: String, outFileName: String) : Task(inFileName, outFileName) {
