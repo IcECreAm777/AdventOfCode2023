@@ -11,17 +11,17 @@ class Task02(inFileName: String, outFileName: String) : Task(inFileName, outFile
     private val maxGreen = 13
     private val maxBlue = 14
 
+    // list of games parsed from the input
+    private var games = listOf<Game>()
 
-    override fun generateFirstSubTaskResult(): String {
 
-        // variable saving the result of this sub-task
-        var sum = 0
+    override fun initializeTask() {
+
+        // mutable list to initialize the games
+        val gameInit = mutableListOf<Game>()
 
         // iterate through every line to parse the input
         File(inputFileName).forEachLine {
-
-            // variable for the result of this game
-            var gamePossible = true
 
             // get the game ID
             val idAndSetSplit = it.split(':')
@@ -29,13 +29,30 @@ class Task02(inFileName: String, outFileName: String) : Task(inFileName, outFile
 
             // iterate through all the different game sets
             val gameSets = idAndSetSplit[1].split(';')
-            loop@ for (set in gameSets) {
 
-                // iterate through each pull made during this set
-                val pulls = set.split(',')
-                for (pull in pulls) {
-                    // check if the pull is possible
-                    val (color, num) = parseCubePull(pull)
+            // initialize the game and add it to the list
+            val game = Game(gameId, gameSets)
+            gameInit.add(game)
+        }
+
+        // save the list as immutable list
+        games = gameInit.toList()
+    }
+
+    override fun generateFirstSubTaskResult(): String {
+
+        // variable saving the result of this sub-task
+        var sum = 0
+
+        // iterate through the games
+        for(game in games) {
+
+            // variable for the result of this game
+            var gamePossible = true
+
+            // iterate through the game sets containing the different pulls to check if everything is possible
+            loop@ for(set in game.getSets()) {
+                for ((color, num) in set) {
                     gamePossible = checkPull(color, num)
 
                     // we can break when this game isn't possible
@@ -43,7 +60,8 @@ class Task02(inFileName: String, outFileName: String) : Task(inFileName, outFile
                 }
             }
 
-            if(gamePossible) sum += gameId
+            // add the game ID to the result
+            if(gamePossible) sum += game.getID()
         }
 
         // return the result as string
@@ -55,21 +73,15 @@ class Task02(inFileName: String, outFileName: String) : Task(inFileName, outFile
         // variable saving the result of this sub-task
         var sum = 0
 
-        // iterate through every line to parse the input
-        File(inputFileName).forEachLine {
+        // iterate through the games to look for the amount of cubes
+        for(game in games) {
 
             // map to save the min amount of cubes
             val colorMap = mutableMapOf(CubeColor.RED to 1, CubeColor.GREEN to 1, CubeColor.BLUE to 1)
 
-            // iterate through all the different game sets
-            val idAndSetSplit = it.split(':')
-            val gameSets = idAndSetSplit[1].split(';')
-            for (set in gameSets) {
-                // iterate through each pull made during this set
-                val pulls = set.split(',')
-                for (pull in pulls) {
-                    // update the result dictionary
-                    val (color, num) = parseCubePull(pull)
+            // look in every set to find the amount of cubes needed and update the min amount if needed
+            for(set in game.getSets()) {
+                for((color, num) in set) {
                     colorMap[color] = if(num > colorMap[color]!!) num else colorMap[color]!!
                 }
             }
@@ -98,26 +110,6 @@ class Task02(inFileName: String, outFileName: String) : Task(inFileName, outFile
         val regex = Regex("\\d+")
         val id = regex.find(idString)
         return id!!.value.toInt()
-    }
-
-    /** Parses a single pull into the color and the num of cubes pulled
-     * @param pull The string for a single pull (like "5 red")
-     * @return CubeColor and NumPulled
-     */
-    private fun parseCubePull(pull: String) : Pull {
-
-        // find how many were pulled
-        val regex = Regex("\\d+")
-        val num = regex.find(pull)!!.value.toInt()
-
-        // find which color was pulled
-        var color = CubeColor.INVALID
-        if(pull.contains("red")) color = CubeColor.RED
-        if(pull.contains("blue")) color = CubeColor.BLUE
-        if(pull.contains("green")) color = CubeColor.GREEN
-
-        // return the pair
-        return Pull(color, num)
     }
 
     /** Checks if it's possible to pull that many cubes of the specified color
