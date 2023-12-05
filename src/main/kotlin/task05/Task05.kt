@@ -23,7 +23,7 @@ class Task05(inFileName: String, outFileName: String) : Task(inFileName, outFile
     private val humidityToLocation = mutableListOf<ConversionMap>()
 
     // list of seed ids we use as input
-    private val seeds = mutableListOf<Long>()
+    private val seeds = mutableListOf<SeedRange>()
 
 
     override fun initializeTask() {
@@ -40,9 +40,8 @@ class Task05(inFileName: String, outFileName: String) : Task(inFileName, outFile
                 continue
             }
 
-            // parse the seed ids specified inside the first line
+            // parsing seeds differs from sub-task to sub-task, so nothing should be done here
             if(line.contains("seeds:")) {
-                parseSeeds(line)
                 line = reader.readLine()
                 continue
             }
@@ -58,45 +57,94 @@ class Task05(inFileName: String, outFileName: String) : Task(inFileName, outFile
             parseConversionMapEntry(line, listToModify)
             line = reader.readLine()
         }
+
+        // close the reader when done
+        reader.close()
     }
 
     override fun generateFirstSubTaskResult(): String {
 
+        // parse seeds based on the first sub-task interpretation
+        val reader = File(inputFileName).bufferedReader()
+        val line = reader.readLine()
+        parseSeedsAsIDs(line)
+        reader.close()
+
+        // return the result of traversing the maps as result string
+        return traverseMaps().toString()
+    }
+
+    override fun generateSecondSubTaskResult(): String {
+
+        // parse seeds based on the second sub-task interpretation
+        val reader = File(inputFileName).bufferedReader()
+        val line = reader.readLine()
+        parseSeedsAsRange(line)
+        reader.close()
+
+        // return the result of traversing the maps as result string
+        return traverseMaps().toString()
+    }
+
+
+    /** Traverses the conversion maps for every seed to find the smallest location number
+     * @return The smallest location ID reachable
+     */
+    private fun traverseMaps() : Long {
         // the lowest location is the result of this task
         var targetLocation = Long.MAX_VALUE
 
         // find the location for every seed
         for(seed in seeds) {
-            // traverse the conversion maps
-            val soil = findTranslatedValue(seed, seedToSoil)
-            val fertilizer = findTranslatedValue(soil, soilToFertilizer)
-            val water = findTranslatedValue(fertilizer, fertilizerToWater)
-            val light = findTranslatedValue(water, waterToLight)
-            val temperature = findTranslatedValue(light, lightToTemperature)
-            val humidity = findTranslatedValue(temperature, temperatureToHumidity)
-            val location = findTranslatedValue(humidity, humidityToLocation)
+            for(i in 0..<seed.range) {
+                // generate the seed ID based on the range
+                val seedId = seed.start + i
 
-            // update the target location to the smaller one
-            targetLocation = if(location < targetLocation) location else targetLocation
+                // traverse the conversion maps
+                val soil = findTranslatedValue(seedId, seedToSoil)
+                val fertilizer = findTranslatedValue(soil, soilToFertilizer)
+                val water = findTranslatedValue(fertilizer, fertilizerToWater)
+                val light = findTranslatedValue(water, waterToLight)
+                val temperature = findTranslatedValue(light, lightToTemperature)
+                val humidity = findTranslatedValue(temperature, temperatureToHumidity)
+                val location = findTranslatedValue(humidity, humidityToLocation)
+
+                // update the target location to the smaller one
+                targetLocation = if(location < targetLocation) location else targetLocation
+            }
         }
 
-        // return the location as string
-        return targetLocation.toString()
+        // return the location
+        return targetLocation
     }
-
-    override fun generateSecondSubTaskResult(): String {
-        return super.generateSecondSubTaskResult()
-    }
-
 
     /** Finds all the integers in this line and adds them to the seed list
      * @param line The line to parse the seed IDs from
      */
-    private fun parseSeeds(line: String) {
+    private fun parseSeedsAsIDs(line: String) {
         val regex = Regex("\\d+")
         for(match in regex.findAll(line)) {
             val seed = match.value.toLong()
-            seeds.add(seed)
+            seeds.add(SeedRange(seed, 1)) // range of one since IDs are not treated as range here
+        }
+    }
+
+    /** Finds all the integers in this line and treats them as start-range pair and adds those to the seed list
+     * @param line the line to parse
+     */
+    private fun parseSeedsAsRange(line: String) {
+        // find all the integers
+        val regex = Regex("\\d+")
+        val matches = regex.findAll(line).toList()
+
+        // iterate through half the matches since 2 values are used at the same time
+        for (i in 0..<matches.size / 2) {
+            // get the start ID and the range
+            val start = matches[2 * i].value.toLong()
+            val range = matches[2 * i + 1].value.toLong()
+
+            // add the seed range to the list
+            seeds.add(SeedRange(start, range))
         }
     }
 
