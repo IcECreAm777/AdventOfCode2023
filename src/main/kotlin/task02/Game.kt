@@ -1,10 +1,9 @@
 package task02
 
 /** Class representing a game were the elf pulls a certain amount of cubes */
-class Game(ID: Int, gameSets: List<String>) {
+class Game(private val id: Int, gameSets: List<String>) {
 
     // private members
-    private val id = ID
     private var sets = listOf<List<Pull>>()
 
     // init code for the primary constructor

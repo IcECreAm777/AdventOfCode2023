@@ -1,11 +1,7 @@
 package task04
 
 /** Class representing a play card for task 04 */
-class Card(ID: Int, winningNumbers: List<Int>, playNumbers: List<Int>) {
-
-    private val id = ID
-    private val winningNums = winningNumbers
-    private val playNums = playNumbers
+class Card(private val id: Int, private val winningNums: List<Int>, private val playNums: List<Int>) {
 
     fun getID() : Int {
         return id

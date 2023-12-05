@@ -1,9 +1,6 @@
 import java.io.File
 
-open class Task(inFileName:String, outFileName: String) {
-
-    protected val inputFileName = inFileName
-    private val resultFileName = outFileName
+open class Task(protected val inputFileName: String, private val resultFileName: String) {
 
     /** Invokes the task functionality and writes the result into the specified output file */
     fun invokeTask() {
