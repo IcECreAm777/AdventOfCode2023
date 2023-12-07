@@ -4,6 +4,7 @@ import task03.Task03
 import task04.Task04
 import task05.Task05
 import task06.Task06
+import task07.Task07
 
 fun main(args: Array<String>) {
 
@@ -27,6 +28,7 @@ fun main(args: Array<String>) {
     if(all || task == 4) task04()
     if(all || task == 5) task05()
     if(all || task == 6) task06()
+    if(all || task == 7) task07()
 }
 
 /** Runs the first task */
@@ -70,4 +72,11 @@ fun task06() {
     val task = Task06("./src/main/kotlin/task06/Task06_Input.txt", "./Results/Task06.txt")
     task.invokeTask()
     println("6th task finished")
+}
+
+fun task07() {
+    println("Doing 7th task...")
+    val task = Task07("./src/main/kotlin/task07/Task07_Input.txt", "./Results/Task07.txt")
+    task.invokeTask()
+    println("7th task finished")
 }
