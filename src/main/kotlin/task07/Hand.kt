@@ -12,29 +12,15 @@ abstract class Hand(protected val string: String, private val bid: Int) {
     protected abstract fun characterStrength(card: Char) : Int
 
 
-    override fun toString(): String {
-        return string
-    }
+    override fun toString() = string
+    fun getBid() = bid
 
-    fun getBid(): Int {
-        return bid
-    }
+    fun getFirstCardStrength() = convertStrength(string[0])
+    fun getSecondCardStrength() = convertStrength(string[1])
+    fun getThirdCardStrength() = convertStrength(string[2])
+    fun getFourthCardStrength() = convertStrength(string[3])
+    fun getFifthCardStrength() = convertStrength(string[4])
 
-    fun getFirstCardStrength() : Int {
-        return convertStrength(string[0])
-    }
-    fun getSecondCardStrength() : Int {
-        return convertStrength(string[1])
-    }
-    fun getThirdCardStrength() : Int {
-        return convertStrength(string[2])
-    }
-    fun getFourthCardStrength() : Int {
-        return convertStrength(string[3])
-    }
-    fun getFifthCardStrength() : Int {
-        return convertStrength(string[4])
-    }
 
     /** Gets a character and converts it to a numeric strength value
      * @param card The card character to convert the strength for

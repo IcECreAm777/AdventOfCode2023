@@ -40,11 +40,6 @@ class Game(private val id: Int, gameSets: List<String>) {
         sets = listOfSets.toList()
     }
 
-    fun getID() : Int {
-        return id
-    }
-
-    fun getSets() : List<List<Pull>> {
-        return sets
-    }
+    fun getID() = id
+    fun getSets() = sets
 }
