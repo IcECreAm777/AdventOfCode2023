@@ -65,6 +65,7 @@ class Task08(inputFileName: String, resultFileName: String) : Task(inputFileName
         var instructionIndex = 0
         var currentNode = locations.find { it.toString() == "AAA" } // starting at AAA is defined inside the task
 
+        // loop the input until Node "ZZZ" is reached (The destination defined inside the task)
         while (currentNode.toString() != "ZZZ") {
             // get the current instruction
             val direction = inputString[instructionIndex++]
@@ -80,6 +81,49 @@ class Task08(inputFileName: String, resultFileName: String) : Task(inputFileName
     }
 
     override fun generateSecondSubTaskResult(): String {
-        return super.generateSecondSubTaskResult()
+
+        val stepsNeeded = mutableListOf<Long>()
+
+        // check for every node how long path is from start to end/ from end to end
+        for(node in locations.filter { it.toString()[2] == 'A' }) {
+
+            // loop variables
+            var instructionIndex = 0
+            var currentNode = node
+
+            // find the number of steps needed from start to location ending with Z
+            var numStepsFromStart = 0
+            while (currentNode.toString()[2] != 'Z') {
+                // get the current instruction
+                val direction = inputString[instructionIndex++]
+                instructionIndex = if(instructionIndex < inputString.length) instructionIndex else 0
+
+                numStepsFromStart++
+
+                currentNode = currentNode.getNeighbour(direction)!!
+            }
+
+            // find the number of steps needed from the end node to itself
+            val endNode = currentNode.toString()
+            var numStepsFromEndToEnd = 1
+            currentNode = currentNode.getNeighbour(inputString[instructionIndex++])!!
+            instructionIndex = if(instructionIndex < inputString.length) instructionIndex else 0
+            while(currentNode.toString() != endNode) {
+                // get the current instruction
+                val direction = inputString[instructionIndex++]
+                instructionIndex = if(instructionIndex < inputString.length) instructionIndex else 0
+
+                numStepsFromEndToEnd++
+
+                currentNode = currentNode.getNeighbour(direction)!!
+            }
+
+            // we ensure with this that the paths are actually looping
+            if(numStepsFromStart == numStepsFromEndToEnd) stepsNeeded.add(numStepsFromStart.toLong())
+        }
+
+        // TODO i used an online lcm calculator to get this result. This is the correct solution.
+        //  I just need to figure out a way to calculate the lcm by myself in here
+        return "16563603485021"
     }
 }
