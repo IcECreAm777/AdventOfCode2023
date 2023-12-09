@@ -16,7 +16,12 @@ class Task09(inputFileName: String, resultFileName: String) : Task(inputFileName
     }
 
     override fun generateSecondSubTaskResult(): String {
-        return super.generateSecondSubTaskResult()
+        var sum: Long = 0
+        File(inputFileName).forEachLine {
+            val nums = it.split(' ').map { str -> str.toLong() }.reversed()
+            sum += extrapolate(nums)
+        }
+        return sum.toString()
     }
 
 
