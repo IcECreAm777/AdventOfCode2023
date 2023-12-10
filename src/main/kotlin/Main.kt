@@ -7,6 +7,7 @@ import task06.Task06
 import task07.Task07
 import task08.Task08
 import task09.Task09
+import task10.Task10
 
 fun main(args: Array<String>) {
 
@@ -24,15 +25,16 @@ fun main(args: Array<String>) {
     if(all) println("Doing all tasks in a row...")
 
     // run the tasks
-    if(all || task == 1) task01()
-    if(all || task == 2) task02()
-    if(all || task == 3) task03()
-    if(all || task == 4) task04()
-    if(all || task == 5) task05()
-    if(all || task == 6) task06()
-    if(all || task == 7) task07()
-    if(all || task == 8) task08()
-    if(all || task == 9) task09()
+    if(all || task ==  1) task01()
+    if(all || task ==  2) task02()
+    if(all || task ==  3) task03()
+    if(all || task ==  4) task04()
+    if(all || task ==  5) task05()
+    if(all || task ==  6) task06()
+    if(all || task ==  7) task07()
+    if(all || task ==  8) task08()
+    if(all || task ==  9) task09()
+    if(all || task == 10) task10()
 }
 
 /** Runs the first task */
@@ -97,4 +99,11 @@ fun task09() {
     val task = Task09("./src/main/kotlin/task09/Task09_Input.txt", "./Results/Task09.txt")
     task.invokeTask()
     println("9th task finished")
+}
+
+fun task10() {
+    println("Doing 10th task...")
+    val task = Task10("./src/main/kotlin/task10/Task10_Input.txt", "./Results/Task10.txt")
+    task.invokeTask()
+    println("10th task finished")
 }
