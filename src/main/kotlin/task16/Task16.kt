@@ -3,7 +3,6 @@ package task16
 import Task
 import java.io.File
 import kotlin.math.abs
-import kotlin.math.sign
 
 class Task16(inputFileName: String, resultFileName: String) : Task(inputFileName, resultFileName) {
 
@@ -119,8 +118,11 @@ class Task16(inputFileName: String, resultFileName: String) : Task(inputFileName
         val nextTile = lines[nextLocation.first][nextLocation.second]
         val nextEnergized = energized[nextLocation.first][nextLocation.second]
 
-        // pass through empty space in every case
-        if(nextTile == '.') return Pair(Laser(nextLocation, laser.direction), null)
+        // encountering a mirror
+        if(nextTile == '\\' || nextTile == '/') {
+            val reflectedDirection = reflectLaser(nextTile, laser.direction)
+            return Pair(Laser(nextLocation, reflectedDirection), null)
+        }
 
         // encountering a splitter
         if(nextTile == '|' || nextTile == '-') {
@@ -135,9 +137,8 @@ class Task16(inputFileName: String, resultFileName: String) : Task(inputFileName
             return Pair(Laser(nextLocation, orthogonal), Laser(nextLocation, invOrthogonal))
         }
 
-        // encountering a mirror (the last case so no if)
-        val reflectedDirection = reflectLaser(nextTile, laser.direction)
-        return Pair(Laser(nextLocation, reflectedDirection), null)
+        // treat everything else as empty space (just go one step into the current direction
+        return Pair(Laser(nextLocation, laser.direction), null)
     }
 
     /** Takes the incoming direction and splits it into the two orthogonal directions
