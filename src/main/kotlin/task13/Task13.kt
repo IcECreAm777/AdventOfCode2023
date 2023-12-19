@@ -32,21 +32,39 @@ class Task13(inputFileName: String, resultFileName: String) : Task(inputFileName
     }
 
     override fun generateFirstSubTaskResult(): String {
-
         var sum = 0
 
         // iterate through every formation to get the score for this task
         for (formation in formations) {
-            val row = formation.getNumReflectedRows() * 100
-            val columns = formation.getNumReflectedColumns()
-            sum += row + columns
+            sum += evaluateFormation(formation)
         }
 
         return sum.toString()
     }
 
     override fun generateSecondSubTaskResult(): String {
-        return super.generateSecondSubTaskResult()
+        var sum = 0
+
+        // iterate through all the formations to get the score for this task with fixing the smudge first
+        for (formation in formations) {
+            val row = formation.getNumReflectedRows()
+            val col = formation.getNumReflectedColumns()
+            val score = formation.findSmudgedMirror(row - 1, col - 1)
+            sum += score
+        }
+
+        return sum.toString()
+    }
+
+
+    /** Gets the score for the specified formation based on the scoring defined inside the task
+     * @param formation The formation to evaluate the score
+     * @return The score for this formation (first horizontal score, then vertical if no horizontal mirror was found)
+     */
+    private fun evaluateFormation(formation: RockFormation) : Int {
+        val row = formation.getNumReflectedRows() * 100
+        val col = formation.getNumReflectedColumns()
+        return row + col
     }
 
 }
