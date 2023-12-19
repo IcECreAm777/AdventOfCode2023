@@ -10,6 +10,7 @@ import task09.Task09
 import task10.Task10
 import task11.Task11
 import task12.Task12
+import task13.Task13
 import task16.Task16
 
 fun main(args: Array<String>) {
@@ -40,6 +41,7 @@ fun main(args: Array<String>) {
     if(all || task == 10) task10()
     if(all || task == 11) task11()
     if(all || task == 12) task12()
+    if(all || task == 13) task13()
     if(all || task == 16) task16()
 }
 
@@ -125,6 +127,13 @@ fun task12() {
     val task = Task12("./src/main/kotlin/task12/Task12_Input.txt", "./Results/Task12.txt")
     task.invokeTask()
     println("12th task finished")
+}
+
+fun task13() {
+    println("Doing 13th task...")
+    val task = Task13("./src/main/kotlin/task13/Task13_Input.txt", "./Results/Task13.txt")
+    task.invokeTask()
+    println("13th task finished")
 }
 
 fun task16() {
