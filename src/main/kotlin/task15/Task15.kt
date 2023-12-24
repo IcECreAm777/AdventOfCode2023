@@ -23,7 +23,32 @@ class Task15(inputFileName: String, resultFileName: String) : Task(inputFileName
     }
 
     override fun generateSecondSubTaskResult(): String {
-        return super.generateSecondSubTaskResult()
+
+        // init all the boxes
+        val boxes = List(256) { Box() }
+
+        // loop through all the instructions
+        for(instruction in instructions) {
+            // get the box and parse the instruction to know what to do with the current lens
+            val (label, remove, focalLength) = ParsedInstruction(instruction)
+            val boxIndex = hashFun(label)
+
+            // remove the lens if the instructions says so
+            if(remove) {
+                boxes[boxIndex].removeLens(label)
+                continue
+            }
+
+            // update or add the box otherwise
+            boxes[boxIndex].addOrReplaceLens(Lens(label, focalLength))
+        }
+
+        // get the sum off all the focusing power of all the lenses (the result of this task)
+        var sumPower = 0.toLong()
+        for(index in boxes.indices) {
+            sumPower += boxes[index].getFocusingPower(index)
+        }
+        return sumPower.toString()
     }
 
 
