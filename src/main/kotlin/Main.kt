@@ -9,9 +9,14 @@ import task08.Task08
 import task09.Task09
 import task10.Task10
 import task11.Task11
-import task12.Task12
+//import task12.Task12
 import task13.Task13
+import task14.Task14
+import task15.Task15
 import task16.Task16
+import task17.Task17
+import task19.Task19
+import task20.Task20
 
 fun main(args: Array<String>) {
 
@@ -40,9 +45,14 @@ fun main(args: Array<String>) {
     if(all || task ==  9) task09()
     if(all || task == 10) task10()
     if(all || task == 11) task11()
-    if(all || task == 12) task12()
+    //if(all || task == 12) task12()
     if(all || task == 13) task13()
+    if(all || task == 14) task14()
+    if(all || task == 15) task15()
     if(all || task == 16) task16()
+    if(all || task == 17) task17()
+    if(all || task == 19) task19()
+    if(all || task == 20) task20()
 }
 
 fun task01() {
@@ -122,12 +132,13 @@ fun task11() {
     println("11th task finished")
 }
 
+/*
 fun task12() {
     println("Doing 12th task...")
     val task = Task12("./src/main/kotlin/task12/Task12_Input.txt", "./Results/Task12.txt")
     task.invokeTask()
     println("12th task finished")
-}
+}*/
 
 fun task13() {
     println("Doing 13th task...")
@@ -136,9 +147,44 @@ fun task13() {
     println("13th task finished")
 }
 
+fun task14() {
+    println("Doing 14th task...")
+    val task = Task14("./src/main/kotlin/task14/Task14_Input.txt", "./Results/Task14.txt")
+    task.invokeTask()
+    println("14th task finished")
+}
+
+fun task15() {
+    println("Doing 15th task...")
+    val task = Task15("./src/main/kotlin/task15/Task15_Input.txt", "./Results/Task15.txt")
+    task.invokeTask()
+    println("15th task finished")
+}
+
 fun task16() {
     println("Doing 16th task...")
     val task = Task16("./src/main/kotlin/task16/Task16_Input.txt", "./Results/Task16.txt")
     task.invokeTask()
     println("16th task finished")
+}
+
+fun task17() {
+    println("Doing 17th task...")
+    val task = Task17("./src/main/kotlin/task17/Task17_Input.txt", "./Results/Task17.txt")
+    task.invokeTask()
+    println("17th task finished")
+}
+
+fun task19() {
+    println("Doing 19th task...")
+    val task = Task19("./src/main/kotlin/task19/Task19_Input.txt", "./Results/Task19.txt")
+    task.invokeTask()
+    println("19th task finished")
+}
+
+fun task20() {
+    println("Doing 20th task...")
+    val task = Task20("./src/main/kotlin/task20/Task20_Input.txt", "./Results/Task20.txt")
+    task.invokeTask()
+    println("20th task finished")
 }
